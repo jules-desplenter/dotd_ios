@@ -11,6 +11,7 @@ interface props {
   onChangeImportance: any;
   importance: string;
   otherModal?:any
+  smallStyle?: any
 }
 
 export default function AppSquare(props: props) {
@@ -24,14 +25,24 @@ export default function AppSquare(props: props) {
         props.onChangeText(props.text);
         props.onChangeImportance(props.importance)
       }}
-      style={styles.square}
+      style={[styles.square,props.smallStyle && {width: 100}]}
     >
+      {
+        props.smallStyle ?
+        <Svg.SvgUri
+        width="75"
+        height="75"
+        style={{ borderRadius: 20, overflow: "hidden" }}
+        uri={'https://dotdbelgium.blob.core.windows.net/logos/iconmonstr-' + props.name + '.svg'}
+      /> :
       <Svg.SvgUri
         width="100"
         height="100"
         style={{ borderRadius: 20, overflow: "hidden" }}
         uri={'https://dotdbelgium.blob.core.windows.net/logos/iconmonstr-' + props.name + '.svg'}
       />
+      }
+      
         <Text style={styles.text}>{props.name}</Text>
     </Pressable>
   );

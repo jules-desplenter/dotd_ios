@@ -112,11 +112,19 @@ export default function Edit() {
     obPlace: "whatsapp",
   });
   links.sort(function (a: any, b: any) {
-    if (a.importance == null) {
-      return 1;
+    let compare1, compare2;
+    if (a.importance == null || a.importance == 0) {
+      compare1 = Infinity;
     } else {
-      return a.importance - b.importance;
+      compare1 = a.importance;
     }
+    if (b.importance == null || b.importance == 0) {
+      compare2 = Infinity;
+    } else {
+      compare2 = b.importance;
+    }
+
+    return compare1 - compare2;
   });
 
   const toggleSwitch = () => {
@@ -634,8 +642,11 @@ export default function Edit() {
               backgroundColor: "rgba(0,0,0,0.5)",
             }}
           >
-            <Pressable onPress={() => {}} style={styles.modalView}>
-              <View style={styles.links}>
+            <Pressable
+              onPress={() => {}}
+              style={[styles.modalView, { width: 350 }]}
+            >
+              <View style={[styles.links, { width: 300 }]}>
                 {links.map((e: any) => {
                   if (e.link == "") {
                     return (
@@ -648,15 +659,16 @@ export default function Edit() {
                         state={e.state}
                         text={ob ? ob[e.obPlace].replace(e.startUrl, "") : ""}
                         otherModal={setNotUsed}
+                        smallStyle={true}
                       ></AppSquare>
                     );
                   }
                 })}
               </View>
-              <Button
-                title="close"
+              <Pressable
+                style={[styles.button, styles.buttonSave]}
                 onPress={() => setNotUsed(!notUsed)}
-              ></Button>
+              >close</Pressable>
             </Pressable>
           </Pressable>
         </Modal>
@@ -845,10 +857,18 @@ export default function Edit() {
             <Text style={{ textAlign: "center", marginTop: 10 }}>Add</Text>
           </Pressable>
         </View>
-        <View style={{width: '100%', justifyContent: 'center', alignItems: 'center', marginTop: 60, height: 200}}>
+        <View
+          style={{
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: 60,
+            height: 200,
+          }}
+        >
           <Text>Powered by:</Text>
           <Svg.SvgUri
-            style={{width: 50, height:20}}
+            style={{ width: 50, height: 20 }}
             width="35%"
             height="35%"
             uri="https://dotdbelgium.blob.core.windows.net/logos/dotd.svg"
